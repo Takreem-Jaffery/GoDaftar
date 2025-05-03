@@ -43,8 +43,8 @@ const jobSchema = new mongoose.Schema({
         enum:["Yes","No"]
     },
     personalWebsite:{
-        type:String,
-        required:true
+        title: String,
+        url:String
     },
     jobNiche:{ //we will use for automation of emails
         type:String,
