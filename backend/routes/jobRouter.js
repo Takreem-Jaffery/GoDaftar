@@ -5,4 +5,4 @@ import { postJob } from "../controllers/jobController";
 
 const router = express.Router();
 
-router.post("/post",isAuthenticated, isAutherized(""),postJob)
+router.post("/post",isAuthenticated, isAuthorized(""),postJob)
