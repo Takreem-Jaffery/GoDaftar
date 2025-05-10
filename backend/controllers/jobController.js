@@ -50,14 +50,38 @@ export const getAllJobs = catchAsyncErrors(async(req,res,next)=>{
         jobs,
         count: jobs.length
     });
-})
+});
+
 export const getMyJobs = catchAsyncErrors(async(req,res,next)=>{
-    
-})
+    const myJobs = await Job.find({postedBy: req.user._id});
+    res.status(200).json({
+        success: true,
+        myJobs
+    });
+});
+
 export const deleteJob = catchAsyncErrors(async(req,res,next)=>{
-    
-})
+    const {id} = req.params;
+    const job = await Job.findById(id);
+    if(!job){
+        return next(new ErrorHandler("Oops! Job not found.",404));
+    }
+    await Job.deleteOne();
+    res.status(200).json({
+        success:true,
+        message:"Job deleted."
+    });
+});
+
 export const getASingleJob = catchAsyncErrors(async(req,res,next)=>{
-    
+    const {id}= req.params;
+    const jobs = await Job.findById(id);
+    if(!job){
+        return next(new ErrorHandler("Job not found.",404));
+    }
+    res.status(200).json({
+        success:true,
+        message:job
+    });
 })
 
