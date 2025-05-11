@@ -4,15 +4,15 @@ import {Application} from "../models/applicationSchema.js";
 import {Job} from "../models/jobSchema.js";
 import {v2 as cloudinary} from "cloudinary";
 
-export const postApplication = catchAsyncErrors(async(req,resizeBy,next)=>{
+export const postApplication = catchAsyncErrors(async(req,res,next)=>{
     const {id} = req.params;
     const {name,email,phone,address,coverLetter} = req.body;
-    if(!name || !email||!phone||!address||!scoverLetter){
+    if(!name || !email||!phone||!address||!coverLetter){
         return next(new ErrorHandler("All fields are required.",400));
     }
     //has the user applied already
     const isAlreadyApplied = await Application.findOne({
-        "jobInfo.id":id,
+        "jobInfo.jobId":id,
         "jobSeekerInfo.id": req.user._id
     });
     if(isAlreadyApplied){
@@ -66,7 +66,7 @@ export const postApplication = catchAsyncErrors(async(req,resizeBy,next)=>{
     }
     const jobInfo = {
         jobId: id,
-        jobTitle: jobDetails.jobTitle
+        jobTitle: jobDetails.title
     }
     
     const application = await Application.create({jobSeekerInfo,employerInfo,jobInfo});
@@ -79,7 +79,7 @@ export const postApplication = catchAsyncErrors(async(req,resizeBy,next)=>{
 });
 
 //employer able to see all aplications sent by applicants
-export const employerGetAllApplication = catchAsyncErrors(async(req,resizeBy,next)=>{
+export const employerGetAllApplication = catchAsyncErrors(async(req,res,next)=>{
     const {_id} = req.user;
     const applications = await Application.find({
         "employerInfo.id":_id,
@@ -90,7 +90,7 @@ export const employerGetAllApplication = catchAsyncErrors(async(req,resizeBy,nex
         applications
     });
 });
-export const jobSeekerGetAllApplication = catchAsyncErrors(async(req,resizeBy,next)=>{
+export const jobSeekerGetAllApplication = catchAsyncErrors(async(req,res,next)=>{
     const {_id} = req.user;
     const applications = await Application.find({
         "jobSeekerInfo.id":_id,
@@ -101,7 +101,7 @@ export const jobSeekerGetAllApplication = catchAsyncErrors(async(req,resizeBy,ne
         applications
     });
 });
-export const deleteApplication = catchAsyncErrors(async(req,resizeBy,next)=>{
+export const deleteApplication = catchAsyncErrors(async(req,res,next)=>{
     //application can be deleted from either employer side or job seeker side
     const {id} = req.param;
     const application = await Application.findById(id);

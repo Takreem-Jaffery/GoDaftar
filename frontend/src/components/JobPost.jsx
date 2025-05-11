@@ -131,8 +131,8 @@ const JobPost = () => {
         <label>Location (City)</label>
         <select value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="">Select Job Type</option>
-          {cities.map((element) => {
-            return <option value={element}>{element}</option>;
+          {cities.map((element,index) => {
+            return <option value={element} key={index}>{element}</option>;
           })}
         </select>
       </div>
@@ -190,8 +190,8 @@ const JobPost = () => {
         <label>Job Niche</label>
         <select value={jobNiche} onChange={(e) => setJobNiche(e.target.value)}>
           <option value="">Select Job Niche</option>
-          {nichesArray.map((element) => {
-            return <option value={element}>{element}</option>;
+          {nichesArray.map((element, index) => {
+            return <option value={element} key={index}>{element}</option>;
           })}
         </select>
       </div>

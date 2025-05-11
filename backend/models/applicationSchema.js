@@ -51,7 +51,7 @@ const applicationSchema = new mongoose.Schema({
         }
     },
     jobInfo:{
-        id:{
+        jobId:{
             type:mongoose.Schema.Types.ObjectId,
             required: true  
         },

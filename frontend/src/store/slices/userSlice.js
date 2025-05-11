@@ -122,7 +122,7 @@ export const login = (data) => async (dispatch) => {
     dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(extractErrorMessage(error)));
+    dispatch(userSlice.actions.loginFailed(error.response.data.message));
   }
 };
 
@@ -136,7 +136,8 @@ export const getUser = () => async (dispatch) => {
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.fetchUserFailed(extractErrorMessage(error)));
+    console.log(error,"This:")
+    dispatch(userSlice.actions.fetchUserFailed(error.response.data.message));
   }
 };
 

@@ -68,15 +68,26 @@ const PostApplication = () => {
   let qualifications = [];
   let responsibilities = [];
   let offering = [];
-  if (singleJob.qualifications) {
+
+
+  if (singleJob && singleJob.qualifications) {
     qualifications = singleJob.qualifications.split(". ");
   }
-  if (singleJob.responsibilities) {
+  if (singleJob && singleJob.responsibilities) {
     responsibilities = singleJob.responsibilities.split(". ");
   }
-  if (singleJob.offers) {
+  if (singleJob && singleJob.offers) {
     offering = singleJob.offers.split(". ");
   }
+  // if (singleJob.qualifications) {
+  //   qualifications = singleJob.qualifications.split(". ");
+  // }
+  // if (singleJob.responsibilities) {
+  //   responsibilities = singleJob.responsibilities.split(". ");
+  // }
+  // if (singleJob.offers) {
+  //   offering = singleJob.offers.split(". ");
+  // }
 
   const resumeHandler = (e) => {
     const file = e.target.files[0];

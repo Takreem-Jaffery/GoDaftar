@@ -2,7 +2,7 @@ import {catchAsyncErrors} from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/error.js";
 import {Job} from "../models/jobSchema.js";
 
-export const postJob = catchAsyncErrors(async(req,resizeBy,next)=>{
+export const postJob = catchAsyncErrors(async(req,res,next)=>{
     const {title,jobType,location,companyName,introduction,responsibilities, qualifications,offers,salary, hiringMultipleCandidates,personalWebsiteTitle,personalWebsiteUrl, jobNiche} = req.body;
     if(!title|| !jobType|| !location|| !companyName|| !introduction|| !responsibilities|| !qualifications || !salary|| !jobNiche){ //checking to see if the user failed to provide any of these
         return next(new ErrorHandler("Please provide full job details.",400))
@@ -13,10 +13,10 @@ export const postJob = catchAsyncErrors(async(req,resizeBy,next)=>{
 
     const postedBy = req.user._id;
     const job = await Job.create({
-        title,jobType,location,companyName,introduction,responsibilities, qualifications,offers,salary, hiringMultipleCandidates,personalWebsite:{title: personalWebsiteTitle,url: personalWebsiteUrl}, jobNiche
+        title,jobType,location,companyName,introduction,responsibilities, qualifications,offers,salary, hiringMultipleCandidates,personalWebsite:{title: personalWebsiteTitle,url: personalWebsiteUrl}, jobNiche,postedBy
     })
 
-    resizeBy.status(201).json({ //201 means created successfully
+    res.status(201).json({ //201 means created successfully
         success: true,
         message: "Job posted successfully.",
         job,
@@ -42,7 +42,7 @@ export const getAllJobs = catchAsyncErrors(async(req,res,next)=>{
             {introduction: {$regex: searchKeyword, $options:"i"}}
         ]
     }
-    const jobs = await Jobs.find(query);
+    const jobs = await Job.find(query);
     res.status(200).json({
         success: true,
         jobs,
@@ -73,13 +73,14 @@ export const deleteJob = catchAsyncErrors(async(req,res,next)=>{
 
 export const getASingleJob = catchAsyncErrors(async(req,res,next)=>{
     const {id}= req.params;
-    const jobs = await Job.findById(id);
+    console.log("Job ID:", id);
+    const job = await Job.findById(id);
     if(!job){
         return next(new ErrorHandler("Job not found.",404));
     }
     res.status(200).json({
         success:true,
-        message:job
+        job
     });
 })
 
