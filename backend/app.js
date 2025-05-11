@@ -4,6 +4,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import {connection} from './database/connection.js';
 import { errorMiddleware } from "./middlewares/error.js";
+import fileUpload from "express-fileupload";
+
+import userRouter from "./routes/userRouter.js";
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -17,6 +20,14 @@ app.use(cors({
 app.use(cookieParser()); // access the user after registration
 app.use(express.json());
 app.use(express.urlencoded({extended: true})); // what kind of data we're getting
+
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+}));
+
+
+app.use("/api/v1/user", userRouter);
 
 connection();
 app.use(errorMiddleware);
