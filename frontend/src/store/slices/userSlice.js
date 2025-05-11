@@ -77,16 +77,18 @@ const userSlice = createSlice({
       state.error = null;
     },
     logoutFailed(state, action) {
-      state.isAuthenticated;
-      state.user;
       state.error = action.payload;
     },
     clearAllErrors(state) {
       state.error = null;
-      state.user;
     },
   },
 });
+
+//add utility here
+const extractErrorMessage = (error) =>
+  error.response?.data?.message || error.message || "Something went wrong";
+
 
 export const register = (data) => async (dispatch) => {
   dispatch(userSlice.actions.registerRequest());
@@ -102,7 +104,7 @@ export const register = (data) => async (dispatch) => {
     dispatch(userSlice.actions.registerSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.registerFailed(error.response.data.message));
+    dispatch(userSlice.actions.registerFailed(extractErrorMessage(error)));
   }
 };
 
@@ -120,7 +122,7 @@ export const login = (data) => async (dispatch) => {
     dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(error.response.data.message));
+    dispatch(userSlice.actions.loginFailed(extractErrorMessage(error)));
   }
 };
 
@@ -129,25 +131,24 @@ export const getUser = () => async (dispatch) => {
   try {
     const response = await axios.get(
       "http://localhost:4000/api/v1/user/getuser",
-      {
-        withCredentials: true,
-      }
+      { withCredentials: true }
     );
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.fetchUserFailed(error.response.data.message));
+    dispatch(userSlice.actions.fetchUserFailed(extractErrorMessage(error)));
   }
 };
+
 export const logout = () => async (dispatch) => {
   try {
     await axios.get("http://localhost:4000/api/v1/user/logout", {
-        withCredentials: true,
-      });
+      withCredentials: true,
+    });
     dispatch(userSlice.actions.logoutSuccess());
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.logoutFailed(error.response.data.message));
+    dispatch(userSlice.actions.logoutFailed(extractErrorMessage(error)));
   }
 };
 
