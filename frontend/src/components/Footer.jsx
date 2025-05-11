@@ -14,14 +14,14 @@ const Footer = () => {
     <>
       <footer>
         <div>
-          <img src="/logo.png" alt="logo" />
+          <img src="src/logoFooter.png" alt="logo" />
         </div>
         <div>
           <h4>Support</h4>
           <ul>
-            <li>Street No.007 Shahrah-e-Faisal Karachi, Pakistan</li>
-            <li>nichenest@gmail.com</li>
-            <li>+92 3106507521</li>
+            <li>FAST NUCES, Faisal Town, Lahore, Pakistan</li>
+            <li>godaftarsite@gmail.com</li>
+            <li>+92 12121212</li>
           </ul>
         </div>
 
@@ -79,9 +79,6 @@ const Footer = () => {
           </ul>
         </div>
       </footer>
-      <div className="copyright">
-        &copy; CopyRight 2024. All Rights Reserved By CodeWithZeeshu
-      </div>
     </>
   );
 };

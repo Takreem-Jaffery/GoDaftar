@@ -173,7 +173,7 @@ export const postJob = (data) => async (dispatch) => {
     const response = await axios.post(
       `https://localhost:4000/api/v1/job/post`,
       data,
-      { withCredentials: true, headers: { "Content-Type": "application/json" } }
+      { withCredentials: true, headers: { "Content-Type": "job/json" } }
     );
     dispatch(jobSlice.actions.successForPostJob(response.data.message));
     dispatch(jobSlice.actions.clearAllErrors());

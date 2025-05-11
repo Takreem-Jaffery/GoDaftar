@@ -36,7 +36,7 @@ export const newsLetterCron = ()=>{
                     });
                 }
                 job.newsLettersSent=true;
-                await Job.save();
+                await job.save();
             }catch(err){
                 console.log("Error in node Cron catch block.")
                 return next(console.error(error||"Some error in Cron."));
