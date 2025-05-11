@@ -1,6 +1,6 @@
 import express from "express";
 import {isAuthenticated, isAuthorized} from "../middlewares/auth.js";
-import { deleteApplication, employerGetAllApplication, jobSeekerGetAllApplication, postApplication } from "../controllers/applicationController";
+import { deleteApplication, employerGetAllApplication, jobSeekerGetAllApplication, postApplication } from "../controllers/applicationController.js";
 
 const router = express.Router();
 
