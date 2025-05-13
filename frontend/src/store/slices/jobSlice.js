@@ -127,7 +127,7 @@ export const fetchJobs =
       // }
       /***************************************************/
 
-      if (niche) {
+      if (niche && niche !=="All") {
         queryParams.push(`niche=${niche}`);
       }
 

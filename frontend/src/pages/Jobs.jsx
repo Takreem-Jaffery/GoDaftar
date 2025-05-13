@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearAllJobErrors, fetchJobs } from "../store/slices/jobSlice";
 import Spinner from "../components/Spinner";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {debounce} from "lodash";
 
 const Jobs = () => {
   const [city, setCity] = useState("");
@@ -12,7 +13,8 @@ const Jobs = () => {
   const [niche, setNiche] = useState("");
   const [selectedNiche, setSelectedNiche] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-
+  const inputRef=useRef();
+  
   const dispatch = useDispatch();
   const { jobs, loading, error } = useSelector((state) => state.jobs);
 
@@ -59,9 +61,25 @@ const Jobs = () => {
     }
   }, [error, dispatch]);
 
+  // useEffect(() => {
+  //   dispatch(fetchJobs(city, niche, searchKeyword));
+  //   inputRef.current.focus();
+  // }, [city, niche, searchKeyword, dispatch]);
+
+  useEffect(() => {
+    //only fetch jobs once when the component mounts
+    dispatch(fetchJobs(city, niche, ""));
+    inputRef.current?.focus();
+  }, [dispatch]);
+
+  //when city or nich changes
   useEffect(() => {
     dispatch(fetchJobs(city, niche, searchKeyword));
-  }, [city, niche, searchKeyword, dispatch]);
+  }, [city, niche, dispatch]);
+
+  useEffect(()=>{
+    inputRef.current.focus();
+  },[])
 
   return (
     <>
@@ -72,6 +90,7 @@ const Jobs = () => {
           <div className="search-tab-wrapper">
             <input
               type="text"
+              ref={inputRef}
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
             />

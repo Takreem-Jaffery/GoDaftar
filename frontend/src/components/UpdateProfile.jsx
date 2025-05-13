@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { clearAllUpdateProfileErrors, updateProfile } from '../store/slices/updateProfileSlice';
 import { toast } from 'react-toastify';
 import { getUser } from '../store/slices/userSlice';
+import { Link } from "react-router-dom";
 
 const UpdateProfile = ()=>{
     const {user} = useSelector((state) => state.user);
